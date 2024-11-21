@@ -1,4 +1,4 @@
-import { calcularCadena } from "../src/calculadora";
+import { calcularCadena } from "./calculadora.js";
 
 test("Para una cadena vacía, retorna 0", () => {
   expect(calcularCadena("")).toBe(0);
