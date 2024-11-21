@@ -1,13 +1,23 @@
 import { calcularCadena } from "./calculadora.js";
 
-test("Para una cadena vacía, retorna 0", () => {
-  expect(calcularCadena("")).toBe(0);
+test("Soporte para el delimitador `-`", () => {
+  expect(calcularCadena("1-2,3")).toBe(6);
 });
 
-test("Para una cadena con un solo número, retorna el número mismo", () => {
-  expect(calcularCadena("2")).toBe(2);
+test("Soporte para delimitadores personalizados", () => {
+  expect(calcularCadena("//[;]\n6;3;2")).toBe(11);
 });
 
-test("Para una cadena con dos números separados por coma, retorna la suma", () => {
-  expect(calcularCadena("1,2")).toBe(3);
+test("Ignorar números mayores a 1000", () => {
+  expect(calcularCadena("2,1001")).toBe(2);
 });
+
+test("Delimitadores de cualquier longitud", () => {
+  expect(calcularCadena("//[***]\n1***2***3")).toBe(6);
+});
+
+test("Múltiples delimitadores", () => {
+  expect(calcularCadena("//[*][%]\n1*2%3,7-9")).toBe(22);
+});
+
+
