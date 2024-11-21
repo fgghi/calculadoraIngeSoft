@@ -1,18 +1,30 @@
-import { calcularCadena } from './calculadora.js';
+import { calculateSum } from './calculadora.js';
 
-const form = document.getElementById("cadenaForm");
-const resultado = document.getElementById("resultado");
-
-form.addEventListener("submit", function (event) {
-  event.preventDefault()
-
-  const cadena = form.cadena.value;
-  try {
-    const suma = calcularCadena(cadena);
-    resultado.textContent = `Resultado: ${suma}`; 
-  } catch (error) {
-    resultado.textContent = `Error: ${error.message}`;
+function initializeCalculator() {
+  const calculatorForm = document.getElementById("calculatorForm");
+  const resultDisplay = document.getElementById("result");
+  
+  calculatorForm.addEventListener("submit", handleCalculation);
+  
+  function handleCalculation(event) {
+    event.preventDefault();
+    const input = calculatorForm.numbers.value;
+    
+    try {
+      const sum = calculateSum(input);
+      displayResult(sum);
+    } catch (error) {
+      displayError(error.message);
+    }
   }
-});
+  
+  function displayResult(sum) {
+    resultDisplay.textContent = `Resultado: ${sum}`;
+  }
+  
+  function displayError(message) {
+    resultDisplay.textContent = `Error: ${message}`;
+  }
+}
 
-
+document.addEventListener('DOMContentLoaded', initializeCalculator);

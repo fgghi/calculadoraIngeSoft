@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora de Cadena</title>
+    <meta charset="UTF-8">
+    <title>Calculadora de Cadenas</title>
 </head>
 <body>
-  <h1>Calculadora de Cadena</h1>
-  <form id="cadenaForm">
-    <label for="cadena">Ingresa la cadena:</label>
-    <input type="text" id="cadena" name="cadena" placeholder="Ejemplo: 1,2,3">
-    <button type="submit">Calcular</button>
-  </form>
-  <p id="resultado"></p>
-
-  <script type="module" src="./src/presenter.js"></script>
+    <h1>Calculadora de Cadenas</h1>
+    <form id="calculatorForm">
+        <label for="numbers">Ingresa los números:</label>
+        <input type="text" id="numbers" name="numbers" required>
+        <button type="submit">Calcular</button>
+    </form>
+    <p id="result"></p>
+    <script type="module" src="./src/presenter.js"></script>
 </body>
 </html>

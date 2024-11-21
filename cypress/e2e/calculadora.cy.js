@@ -1,30 +1,34 @@
-describe("Calculadora de Cadena", () => {
+describe('Calculadora de Cadenas UI', () => {
   beforeEach(() => {
-    cy.visit("index.html");
+    cy.visit('index.html');
   });
 
-  it("Debería mostrar 0 para una cadena vacía", () => {
-    cy.get("input#cadena").clear();
-    cy.get("button").click();
-    cy.get("#resultado").should("contain", "Resultado: 0");
+  function enterNumbersAndCalculate(input) {
+    cy.get('#numbers').clear().type(input);
+    cy.get('button').click();
+  }
+
+  function checkResult(expectedSum) {
+    cy.get('#result').should('contain', `Resultado: ${expectedSum}`);
+  }
+
+  it('maneja entrada vacía', () => {
+    enterNumbersAndCalculate('input#cadena');
+    checkResult(0);
   });
 
-  it("Debería sumar números separados por comas", () => {
-    cy.get("input#cadena").type("1,2,3");
-    cy.get("button").click();
-    cy.get("#resultado").should("contain", "Resultado: 6");
+  it('suma números con delimitador por defecto', () => {
+    enterNumbersAndCalculate('1,2,3');
+    checkResult(6);
   });
 
-  it("Debería ignorar números mayores a 1000", () => {
-    cy.get("input#cadena").type("1,1001");
-    cy.get("button").click();
-    cy.get("#resultado").should("contain", "Resultado: 1");
+  it('ignora números mayores a 1000', () => {
+    enterNumbersAndCalculate('1,1001');
+    checkResult(1);
   });
 
-  it("Debería soportar múltiples delimitadores personalizados", () => {
-    cy.get("input#cadena").type("//[*][%]\n1*2%3");
-    cy.get("button").click();
-    cy.wait(500);
-    cy.get("#resultado").should("contain", "Resultado: 6");
+  it('maneja múltiples delimitadores', () => {
+    enterNumbersAndCalculate('//[*][%]\\n*2%3');
+    checkResult(5);
   });
 });
