@@ -1,28 +1,41 @@
 export function calcularCadena(cadena) {
-  if (!cadena) return 0; 
-
-  let delimitadores = [",", "-"];
-
+  if (!cadena) return 0;
+  
   if (cadena.startsWith("//")) {
-    const delimitadorDefinido = cadena.match(/\/\/(\[.*?\])+\n/);
-    if (delimitadorDefinido) {
-      const personalizados = delimitadorDefinido[0]
-        .match(/\[.*?\]/g) 
-        .map(d => d.slice(1, -1));
-      delimitadores = delimitadores.concat(personalizados);
-      cadena = cadena.slice(cadena.indexOf("\n") + 1);
+    let parteNumeros = cadena;
+    let delimitadores = [];
+    
+    const delimitadoresMatch = cadena.match(/\[(.*?)\]/g);
+    if (delimitadoresMatch) {
+      delimitadores = delimitadoresMatch
+        .map(d => d.slice(1, -1))
+        .map(d => d.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'));
+      
+      const ultimoDelimitador = cadena.lastIndexOf(']');
+      const siguienteCaracter = cadena.indexOf('\n', ultimoDelimitador);
+      if (siguienteCaracter !== -1) {
+        parteNumeros = cadena.slice(siguienteCaracter + 1);
+      } else {
+        parteNumeros = cadena.slice(ultimoDelimitador + 1);
+      }
+    }
+    
+    if (delimitadores.length > 0) {
+      const regex = new RegExp(delimitadores.join('|'));
+      const numeros = parteNumeros.split(regex);
+      
+      return numeros
+        .filter(n => n.length > 0)
+        .map(n => parseInt(n.trim(), 10))
+        .filter(n => !isNaN(n) && n <= 1000)
+        .reduce((sum, n) => sum + n, 0);
     }
   }
-
-  const regex = new RegExp(delimitadores.map(escapeRegExp).join("|"), "g");
-
+  
   return cadena
-    .split(regex)
-    .map(Number)
-    .filter(num => num <= 1000)
-    .reduce((acc, curr) => acc + curr, 0);
-}
-
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    .split(/[,\-]/)
+    .filter(n => n.length > 0)
+    .map(n => parseInt(n.trim(), 10))
+    .filter(n => !isNaN(n) && n <= 1000)
+    .reduce((sum, n) => sum + n, 0);
 }

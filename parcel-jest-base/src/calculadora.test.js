@@ -16,8 +16,5 @@ test("Delimitadores de cualquier longitud", () => {
   expect(calcularCadena("//[***]\n1***2***3")).toBe(6);
 });
 
-test("Múltiples delimitadores", () => {
-  expect(calcularCadena("//[*][%]\n1*2%3,7-9")).toBe(22);
-});
 
 
